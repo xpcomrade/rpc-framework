@@ -10,6 +10,7 @@
 
     <modules>
         <module>simple-rpc</module>
+        <module>snpz-rpc</module>
     </modules>
 
     <properties>

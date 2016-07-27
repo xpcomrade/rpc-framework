@@ -1,8 +1,8 @@
 package com.xpcomrade.study.simplerpc;
 
-import com.xpcomrade.rpc.core.RPCService;
-import com.xpcomrade.rpc.services.HelloService;
-import com.xpcomrade.rpc.services.HelloServiceImpl;
+import com.xpcomrade.study.simplerpc.core.RPCService;
+import com.xpcomrade.study.simplerpc.services.HelloService;
+import com.xpcomrade.study.simplerpc.services.HelloServiceImpl;
 
 /**
  * Created by wangzp
