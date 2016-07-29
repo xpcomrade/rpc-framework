@@ -9,6 +9,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -46,10 +47,6 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
             for (Object serviceBean : serviceBeanMap.values()) {
                 RpcService rpcService = serviceBean.getClass().getAnnotation(RpcService.class);
                 String serviceName = rpcService.value().getName();
-                String serviceVersion = rpcService.version();
-                if (serviceVersion != null && !"".equals(serviceVersion)) {
-                    serviceName += "-" + serviceVersion;
-                }
                 handlerMap.put(serviceName, serviceBean);
             }
         }
@@ -67,6 +64,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
                 @Override
                 protected void initChannel(SocketChannel channel) throws Exception {
                     ChannelPipeline pipeline = channel.pipeline();
+                    pipeline.addLast(new LengthFieldBasedFrameDecoder(65536,0,4,0,0));
                     pipeline.addLast(new RpcDecoder(RpcRequest.class));
                     pipeline.addLast(new RpcEncoder(RpcResponse.class));
                     pipeline.addLast(new RpcServerHandler(handlerMap));
@@ -74,6 +72,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
             });
             bootstrap.option(ChannelOption.SO_BACKLOG, 128);
             bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
+            //bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
 
             ChannelFuture future = bootstrap.bind(host, port).sync();
             logger.debug("server started on port {}", port);

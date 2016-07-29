@@ -1,4 +1,4 @@
-package com.xpcomrade.study.snpzrpc.sample;
+package com.xpcomrade.study.snpzrpc.services;
 
 import com.xpcomrade.study.snpzrpc.server.RpcService;
 

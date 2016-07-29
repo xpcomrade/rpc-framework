@@ -36,7 +36,7 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
             response.setResult(result);
         } catch (Exception e) {
             logger.error("handle result failure", e);
-            response.setException(e);
+            response.setError(e.getMessage());
         }
         ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }
@@ -48,11 +48,7 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
     }
 
     private Object handle(RpcRequest request) throws Exception {
-        String serviceName = request.getInterfaceName();
-        String serviceVersion = request.getServiceVersion();
-        if (serviceVersion != null && !"".equals(serviceVersion)) {
-            serviceName += "-" + serviceVersion;
-        }
+        String serviceName = request.getClassName();
         Object serviceBean = handlerMap.get(serviceName);
         if (serviceBean == null) {
             throw new RuntimeException(String.format("can not find service bean by key: %s", serviceName));

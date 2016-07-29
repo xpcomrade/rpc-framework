@@ -1,4 +1,4 @@
-package com.xpcomrade.study.snpzrpc.sample;
+package com.xpcomrade.study.snpzrpc.services;
 
 /**
  * Created by xpcomrade on 2016/7/25.

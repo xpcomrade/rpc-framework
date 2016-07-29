@@ -1,6 +1,6 @@
 package com.xpcomrade.study.snpzrpc.client;
 
-import com.xpcomrade.study.snpzrpc.sample.HelloService;
+import com.xpcomrade.study.snpzrpc.services.HelloService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by xpcomrade on 2016/7/25.
  * Copyright (c) 2016, xpcomrade@gmail.com All Rights Reserved.
- * Description: TODO(Protostuff序列化与反序列化工具). <br/>
+ * Description: (Protostuff序列化与反序列化工具). <br/>
  */
 public class SerializationUtil {
 
@@ -21,24 +21,27 @@ public class SerializationUtil {
 
     private static Objenesis objenesis = new ObjenesisStd(true);
 
-    private SerializationUtil(){
-
+    private SerializationUtil() {
     }
 
-    private static <T> Schema<T> getSchema(Class<T> tClass) {
-        Schema<T> schema = (Schema<T>)cachedSchema.get(tClass);
+    @SuppressWarnings("unchecked")
+    private static <T> Schema<T> getSchema(Class<T> cls) {
+        Schema<T> schema = (Schema<T>) cachedSchema.get(cls);
         if (schema == null) {
-            schema = RuntimeSchema.createFrom(tClass);
+            schema = RuntimeSchema.createFrom(cls);
             if (schema != null) {
-                cachedSchema.put(tClass, schema);
+                cachedSchema.put(cls, schema);
             }
         }
-
         return schema;
     }
 
+    /**
+     * 序列化（对象 -> 字节数组）
+     */
+    @SuppressWarnings("unchecked")
     public static <T> byte[] serialize(T obj) {
-        Class<T> cls = (Class<T>)obj.getClass();
+        Class<T> cls = (Class<T>) obj.getClass();
         LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
         try {
             Schema<T> schema = getSchema(cls);
@@ -50,6 +53,9 @@ public class SerializationUtil {
         }
     }
 
+    /**
+     * 反序列化（字节数组 -> 对象）
+     */
     public static <T> T deserialize(byte[] data, Class<T> cls) {
         try {
             T message = (T) objenesis.newInstance(cls);
@@ -60,8 +66,5 @@ public class SerializationUtil {
             throw new IllegalStateException(e.getMessage(), e);
         }
     }
-
-
-
 
 }

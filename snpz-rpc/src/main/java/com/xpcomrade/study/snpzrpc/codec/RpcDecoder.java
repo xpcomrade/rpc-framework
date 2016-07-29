@@ -20,19 +20,19 @@ public class RpcDecoder extends ByteToMessageDecoder {
     }
 
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        if (byteBuf.readableBytes() < 4) {
+    public final void decode(ChannelHandlerContext channelHandlerContext, ByteBuf in, List<Object> out) throws Exception {
+        if (in.readableBytes() < 4) {
             return;
         }
-        byteBuf.markReaderIndex();
-        int dataLength = byteBuf.readInt();
-        if (byteBuf.readableBytes() < dataLength) {
-            byteBuf.resetReaderIndex();
+        in.markReaderIndex();
+        int dataLength = in.readInt();
+        if (in.readableBytes() < dataLength) {
+            in.resetReaderIndex();
             return;
         }
 
         byte[] data = new byte[dataLength];
-        byteBuf.readBytes(data);
-        list.add(SerializationUtil.deserialize(data, genericClass));
+        in.readBytes(data);
+        out.add(SerializationUtil.deserialize(data, genericClass));
     }
 }

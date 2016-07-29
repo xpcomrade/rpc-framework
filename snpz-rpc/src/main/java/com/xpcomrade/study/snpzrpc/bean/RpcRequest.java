@@ -9,8 +9,7 @@ import java.io.Serializable;
  */
 public class RpcRequest implements Serializable {
     private String requestId;
-    private String interfaceName;
-    private String serviceVersion;
+    private String className;
     private String methodName;
     private Class<?>[] parameterTypes;
     private Object[] parameters;
@@ -23,20 +22,12 @@ public class RpcRequest implements Serializable {
         this.requestId = requestId;
     }
 
-    public String getInterfaceName() {
-        return interfaceName;
+    public String getClassName() {
+        return className;
     }
 
-    public void setInterfaceName(String className) {
-        this.interfaceName = className;
-    }
-
-    public String getServiceVersion() {
-        return serviceVersion;
-    }
-
-    public void setServiceVersion(String serviceVersion) {
-        this.serviceVersion = serviceVersion;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public String getMethodName() {

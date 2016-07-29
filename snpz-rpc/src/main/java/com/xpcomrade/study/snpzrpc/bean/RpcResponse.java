@@ -10,13 +10,11 @@ import java.io.Serializable;
 public class RpcResponse implements Serializable {
 
     private String requestId;
-
-    private Exception exception;
-
+    private String error;
     private Object result;
 
-    public boolean hasException() {
-        return exception != null;
+    public boolean isError() {
+        return error != null;
     }
 
     public String getRequestId() {
@@ -27,12 +25,12 @@ public class RpcResponse implements Serializable {
         this.requestId = requestId;
     }
 
-    public Throwable getException() {
-        return exception;
+    public String getError() {
+        return error;
     }
 
-    public void setException(Exception exception) {
-        this.exception = exception;
+    public void setError(String error) {
+        this.error = error;
     }
 
     public Object getResult() {
