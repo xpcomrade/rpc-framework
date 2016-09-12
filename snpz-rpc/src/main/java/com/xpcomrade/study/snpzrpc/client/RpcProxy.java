@@ -1,11 +1,10 @@
 package com.xpcomrade.study.snpzrpc.client;
 
+
 import com.xpcomrade.study.snpzrpc.bean.RpcRequest;
-import com.xpcomrade.study.snpzrpc.bean.RpcResponse;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.UUID;
 
 /**
@@ -17,6 +16,17 @@ public class RpcProxy<T> implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+
+        RpcRequest request = new RpcRequest();
+
+        request.setRequestId(UUID.randomUUID().toString());
+        request.setClassName(method.getDeclaringClass().getName());
+        request.setMethodName(method.getName());
+        request.setParameters(args);
+        request.setParameterTypes(method.getParameterTypes());
+
+
+
         return null;
     }
 }
